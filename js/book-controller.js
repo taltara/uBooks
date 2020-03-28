@@ -193,9 +193,9 @@ function onReadBook(bookId) {
     event.stopPropagation();
     var book = getBookById(bookId)
     var elModal = document.querySelector('.modal')
-    elModal.querySelector('h5').innerText = book.name;
+    elModal.querySelector('.modal-book-name').innerText = book.name;
     elModal.querySelector('img').src = book.img;
-    elModal.querySelector('h6').innerText = book.author;
+    elModal.querySelector('.modal-book-author').innerText = book.author;
     elModal.querySelector('.modal-rating').innerText = book.rating;
     elModal.querySelector('.modal-price').innerText = book.price;
     elModal.querySelector('.modal-desc').innerText = book.desc;
