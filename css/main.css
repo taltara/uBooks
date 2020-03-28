@@ -118,6 +118,11 @@ body, html {
     font-size: 14px;
 }
 
+.new-book-input:focus, .book-edit select:focus {
+
+    outline: none;
+}
+
 .new-book-input-text {
     font-weight: 700;
 }
