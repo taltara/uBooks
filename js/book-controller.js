@@ -200,7 +200,6 @@ function onReadBook(bookId) {
     elModal.querySelector('.modal-price').innerText = book.price;
     elModal.querySelector('.modal-desc').innerText = book.desc;
     elModal.hidden = false;
-
 }
 
 // Animating the add button for a loading effect
