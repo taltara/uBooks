@@ -145,7 +145,7 @@ function onSortChange(sortType) {
 
     var elSortBy = document.querySelector(`.book-${sortType}-header`);
     var sortDirection = '';
-    sortDirection = (gSort[0] === '-') ? 'up' : 'down';
+    sortDirection = (gSort[0] === '-') ? 'down' : 'up';
     elSortBy.innerHTML += `<i class="far fa-arrow-alt-circle-${sortDirection}"></i>`
     elSortBy.classList.add('selected-book-sort');
 
