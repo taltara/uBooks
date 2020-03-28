@@ -195,6 +195,7 @@ body, html {
     display: flex;
     flex-direction: column;
     width: 73vmax;
+    min-width: 400px;
     height: fit-content;
     z-index: 1;
     background-color: whitesmoke;
