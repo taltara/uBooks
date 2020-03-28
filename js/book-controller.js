@@ -170,6 +170,10 @@ function onDeleteBook(bookId, elDeleteButton) {
 function onShowAddBook() {
     var elAddNewBookSec = document.querySelector('.book-edit');
     elAddNewBookSec.classList.toggle('hidden');
+    
+    if(elAddNewBookSec.classList.contains('hidden')) elAddNewBookSec.classList.remove('unhidden');
+    else elAddNewBookSec.classList.add('unhidden');
+
 }
 
 function onUpdateBook(bookId) {

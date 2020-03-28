@@ -4,7 +4,7 @@
 }
 
 @media screen and (max-width: 460px) {
-    .book-edit {
+    .unhidden {
         min-height: 130px;
     }
 }
