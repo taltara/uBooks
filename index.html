@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <title>uBooks: Collection</title>
+</head>
+
+<body onload="onInit()">
+    <div class="main-container">
+
+        <header class="navbar">
+            <a class="navbar-head" onclick="openShula()">uBooks</a>
+            <div class="change-view-buttons">
+                <i class="fas fa-th-list fa-2x view-button" onclick="onViewChange('list')"></i>
+                <i class="fab fa-microsoft fa-2x view-button" onclick="onViewChange('tiles')"></i>
+            </div>
+        </header>
+        <button type="button" onclick="onShowAddBook(this)" class="add-book-button"><i
+                class="fas fa-plus fa-2x add-book-btn"></i></button>
+        <section class="book-edit">
+
+            <span><span class="new-book-input-text">Author: </span> <select></select></span> 
+            <span class="input-type"><span class="new-book-input-text">Title: </span><input type="text" name="name" class="new-book-input"></span>
+            <span class="input-type"><span class="new-book-input-text">Price: $ </span><input type="number" name="price" class="new-book-input"></span>
+
+            <button onclick="onSaveBook()">Save</button>
+        </section>
+
+        <span class="next-button-area">
+            <i class="fas fa-chevron-left pages-icons" title="Back" onclick="onNextPage('back')"></i>
+            <span class="page-numbers"></span>
+            <i class="fas fa-chevron-right pages-icons" title="Forward" onclick="onNextPage('forward')"></i>
+        </span>
+        <section class="books-container">
+
+        </section>
+        <div class="modal" hidden>
+            <h5></h5>
+            <img src="">
+            <h6></h6>
+            <span>Rating: <p class="modal-rating"></p></span> 
+            <span>Price: <p class="modal-price"></p></span>
+            <span>Desription:</span>
+            <p class="modal-desc"></p>
+            <!-- <button onclick="onCloseModal()">Close</button> -->
+        </div>
+
+    </div>
+
+    <script src="js/util-service.js"></script>
+    <script src="js/storage-service.js"></script>
+    <script src="js/book-service.js"></script>
+    <script src="js/book-controller.js"></script>
+
+</body>
+
+</html>
