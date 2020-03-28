@@ -3,6 +3,12 @@
     src: url('../fonts/baskvl.woff2') format('woff2'), url('../fonts/baskvl.woff') format('woff'), url('../fonts/baskvl.ttf') format('truetype');
 }
 
+@media screen and (max-width: 460px) {
+    .book-edit {
+        min-height: 130px;
+    }
+}
+
 body, html {
     margin: 0;
     height: 100vh;
@@ -271,7 +277,7 @@ body, html {
 
 .list-btn, .book-edit button {
     cursor: pointer;
-    height: 3vh;
+    height: 2rem;
     font-family: booksFont, Fallback, sans-serif !important;
     color: white;
     border-radius: 10%;
