@@ -10,7 +10,7 @@ var gView = 'tiles';
 var gViewChanged = false;
 var gSort = '';
 var gPages = 1;
-const defaultBookCover = 'https://www.bookcoversclub.com/wp-content/uploads/2018/02/book-cover-352.jpg';
+const defaultBookCover = '../images/default-book-cover.jpg';
 
 // Powerful sorting function for numbers and strings with reverse functionality
 function sortByType(sortType) {

@@ -96,6 +96,7 @@ function renderBooks() {
     document.querySelector('.books-container').innerHTML = strHtmls.join('')
 }
 
+
 // List version of 'renderBooks' to render list of books
 function renderBooksList() {
 
@@ -107,8 +108,8 @@ function renderBooksList() {
 
     <div class="books-list-headers">
         <div class="book-image-header">Cover</div>
-        <div class="book-name-header ${nameHeaderSortStamp}" onclick="onSortChange('name')">Title</div>
-        <div class="book-price-header ${priceHeaderSortStamp}" onclick="onSortChange('price')">Price ($)</div>
+        <div class="book-name-header ${nameHeaderSortStamp}" onclick="onSortChange('name')">Title </div>
+        <div class="book-price-header ${priceHeaderSortStamp}" onclick="onSortChange('price')">Price </div>
         <div class="book-actions-header">Actions</div>
     </div>`;
 
@@ -119,7 +120,7 @@ function renderBooksList() {
                             src="${book.img}"
                             alt="Cover"></div>
                     <div class="book-name"><span class="name-span">${book.name}</span></div>
-                    <div class="book-price">${book.price}</div>
+                    <div class="book-price">$${book.price}</div>
                     <div class="book-actions">
                         <button class="read-list-btn list-btn" onclick="onReadBook('${book.id}')">Read</button>
                         <button class="edit-list-btn list-btn" onclick="onUpdateBook('${book.id}')">Update</button>
@@ -141,8 +142,13 @@ function onSortChange(sortType) {
 
     renderBooksHelper();
 
+
     var elSortBy = document.querySelector(`.book-${sortType}-header`);
+    var sortDirection = '';
+    sortDirection = (gSort[0] === '-') ? 'up' : 'down';
+    elSortBy.innerHTML += `<i class="far fa-arrow-alt-circle-${sortDirection}"></i>`
     elSortBy.classList.add('selected-book-sort');
+
 }
 
 function onCloseModal() {
