@@ -180,7 +180,7 @@ body, html {
     margin: 0 0.5rem;
     font-family: booksFont, Fallback, sans-serif !important;
     font-weight: 600;
-    transition: top 0.3s ease;
+    transition: 0.3s ease;
 }
 
 .selected-books-page {
@@ -305,6 +305,16 @@ body, html {
 
 .delete-list-btn {
     background-color: #D44944;
+}
+
+.read-list-btn, .edit-list-btn, .delete-list-btn {
+
+    transition: 0.2s ease;
+}
+
+.read-list-btn:hover, .edit-list-btn:hover, .delete-list-btn:hover {
+
+    transform: scale(1.1);
 }
 
 .book-actions {
