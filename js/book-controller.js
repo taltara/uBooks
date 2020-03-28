@@ -13,15 +13,15 @@ function onInit() {
     document.querySelector('.book-edit').classList.add('hidden');
     restViewButtons(gView);
     createBook();
-    renderAuthors();
+    // renderAuthors();
     renderBooksHelper();
 }
 
-function renderAuthors() {
-    var authors = getAuthors()
-    var strHtmls = authors.map(author => `<option>${author}</option>`)
-    document.querySelector('.book-edit select').innerHTML = strHtmls.join('')
-}
+// function renderAuthors() {
+//     var authors = getAuthors()
+//     var strHtmls = authors.map(author => `<option>${author}</option>`)
+//     document.querySelector('.book-edit select').innerHTML = strHtmls.join('')
+// }
 
 function onViewChange(viewType) {
 
@@ -223,7 +223,7 @@ function animateLoading(animate) {
 async function onSaveBook() {
     const elBookEdit = document.querySelector('.book-edit');
 
-    const elAuthorInput = elBookEdit.querySelector('select');
+    const elAuthorInput = elBookEdit.querySelector('input[name="author"]');
     const elNameInput = elBookEdit.querySelector('input[name="name"]');
     const elPriceInput = elBookEdit.querySelector('input[name="price"]');
 
@@ -236,7 +236,7 @@ async function onSaveBook() {
     animateLoading(false);
     document.querySelector('.book-edit').classList.add('hidden');
     renderBooksHelper();
-    elNameInput.value = elPriceInput.value = '';
+    elAuthorInput.value = elNameInput.value = elPriceInput.value = '';
 
     elBookEdit.hidden = true;
 }

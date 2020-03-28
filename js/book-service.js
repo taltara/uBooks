@@ -91,7 +91,6 @@ function getBooks() {
         startIdx = 0;
         gViewChanged = false;
         gPageIdx = 0;
-        console.log('PAGEIDX',gPageIdx);
         resetPagesSelect();
         setPageSelect();
     } else {
@@ -158,7 +157,8 @@ async function _createBook(name, author, price) {
     if(bookInfo['items'] != undefined) {
 
         bookInfo = bookInfo['items'][0].volumeInfo;
-    
+        
+        bookInfo.imageLinks.thumbnail = bookInfo.imageLinks.thumbnail.slice(0,4) + 's' + bookInfo.imageLinks.thumbnail.slice(4,);
         return {
             id: makeId(),
             name: bookInfo.title,
