@@ -7,6 +7,7 @@ const PAGE_SIZE_BASE = 14;
 var gPageIdx = 0;
 var newPageChange = true;
 var gView = 'tiles';
+var gViewChanged = false;
 var gSort = '';
 var gPages = 1;
 const defaultBookCover = 'https://www.bookcoversclub.com/wp-content/uploads/2018/02/book-cover-352.jpg';
@@ -84,14 +85,30 @@ function getBooks() {
 
     if (!gBooks || !gBooks.length) return [];
 
+    var startIdx; 
+    if(gViewChanged) {
+
+        startIdx = 0;
+        gViewChanged = false;
+        gPageIdx = 0;
+        console.log('PAGEIDX',gPageIdx);
+        resetPagesSelect();
+        setPageSelect();
+    } else {
+
+        startIdx = gPageIdx * PAGE_SIZE;
+    } 
+
     if (gSort != '') {
 
-        gBooks.sort(sortByType(gSort));
+        var sortedBooks = gBooks.slice(0);
+        
+        sortedBooks.sort(sortByType(gSort));
+        return sortedBooks.slice(startIdx, startIdx + PAGE_SIZE);
     }
 
-    var startIdx = gPageIdx * PAGE_SIZE;
 
-    return gBooks.slice(startIdx, startIdx + PAGE_SIZE)
+    return gBooks.slice(startIdx, startIdx + PAGE_SIZE);
 }
 
 function getAuthors() {

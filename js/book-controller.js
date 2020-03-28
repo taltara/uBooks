@@ -14,7 +14,6 @@ function onInit() {
     restViewButtons(gView);
     createBook();
     renderAuthors();
-    gPageIdx = 0;
     renderBooksHelper();
 }
 
@@ -27,16 +26,21 @@ function renderAuthors() {
 function onViewChange(viewType) {
 
     if (viewType === gView) return;
-
+    gViewChanged = true;
     gView = viewType;
     restViewButtons(gView);
+    
     renderBooksHelper();
 }
 
 function setPageSelect() {
 
-    var elPageNum = document.querySelector(`.page-num-${gPageIdx}`);
-    elPageNum.classList.add('selected-books-page');
+    var elPageNum = document.querySelectorAll(`.page-num-${gPageIdx}`);
+
+    elPageNum.forEach(pageNums => {
+        
+        pageNums.classList.add('selected-books-page');
+    });
 }
 
 // Renders page number buttons
@@ -44,7 +48,7 @@ function renderPageNumbers() {
 
     gPages = Math.ceil(gBooks.length / PAGE_SIZE);
 
-    var elPageNumbers = document.querySelector('.page-numbers');
+    var elPageNumbers = document.querySelectorAll('.page-numbers');
     var strHtml = '';
 
     for (let i = 0; i < gPages; i++) {
@@ -52,7 +56,10 @@ function renderPageNumbers() {
         strHtml += `<div onclick="onNextPage(${i}, this)" class="pages-nums page-num-${i}">${i + 1}</div>`;
     }
 
-    elPageNumbers.innerHTML = strHtml;
+    elPageNumbers.forEach(pageNumberSet => {
+        pageNumberSet.innerHTML = strHtml;
+    });
+
 }
 
 function renderBooksHelper() {
@@ -65,8 +72,6 @@ function renderBooksHelper() {
 
     if (gView === 'tiles') renderBooks();
     else if (gView === 'list') renderBooksList();
-
-    
 }
 
 // Tiles version of 'renderBooks'

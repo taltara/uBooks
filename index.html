@@ -40,6 +40,13 @@
         <section class="books-container">
 
         </section>
+
+        <span class="next-button-area">
+            <i class="fas fa-chevron-left pages-icons" title="Back" onclick="onNextPage('back')"></i>
+            <span class="page-numbers"></span>
+            <i class="fas fa-chevron-right pages-icons" title="Forward" onclick="onNextPage('forward')"></i>
+        </span>
+
         <div class="modal" hidden>
             <h5></h5>
             <img src="">
@@ -48,7 +55,6 @@
             <span>Price: <p class="modal-price"></p></span>
             <span>Desription:</span>
             <p class="modal-desc"></p>
-            <!-- <button onclick="onCloseModal()">Close</button> -->
         </div>
 
     </div>
