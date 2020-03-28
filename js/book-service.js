@@ -158,7 +158,7 @@ async function _createBook(name, author, price) {
 
         bookInfo = bookInfo['items'][0].volumeInfo;
         
-        bookInfo.imageLinks.thumbnail = bookInfo.imageLinks.thumbnail.slice(0,4) + 's' + bookInfo.imageLinks.thumbnail.slice(4,);
+        var safeBookCoverLink = bookInfo.imageLinks.thumbnail.slice(0,4) + 's' + bookInfo.imageLinks.thumbnail.slice(4,);
         return {
             id: makeId(),
             name: bookInfo.title,
@@ -166,7 +166,7 @@ async function _createBook(name, author, price) {
             price: price,
             rating: (bookInfo.averageRating === undefined) ? Math.ceil(Math.random() * 5) : bookInfo.averageRating,
             desc: (bookInfo.description === undefined) ? makeLorem() : bookInfo.description,
-            img: (bookInfo.imageLinks === undefined) ? defaultBookCover : bookInfo.imageLinks.thumbnail
+            img: (bookInfo.imageLinks === undefined) ? defaultBookCover : safeBookCoverLink
         };
 
     } else {
