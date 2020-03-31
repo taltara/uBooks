@@ -4,7 +4,10 @@
 window.onclick = function (event) {
     var elModal = document.querySelector('.modal');
     if (event.target != elModal) {
-        elModal.hidden = true;
+        if(elModal.classList.contains('show')) {
+
+            elModal.classList.remove('show');
+        }
     }
 }
 
@@ -13,15 +16,9 @@ function onInit() {
     document.querySelector('.book-edit').classList.add('hidden');
     restViewButtons(gView);
     createBook();
-    // renderAuthors();
     renderBooksHelper();
 }
 
-// function renderAuthors() {
-//     var authors = getAuthors()
-//     var strHtmls = authors.map(author => `<option>${author}</option>`)
-//     document.querySelector('.book-edit select').innerHTML = strHtmls.join('')
-// }
 
 function onViewChange(viewType) {
 
@@ -72,13 +69,17 @@ function renderBooksHelper() {
 
     if (gView === 'tiles') renderBooks();
     else if (gView === 'list') renderBooksList();
+
 }
 
 // Tiles version of 'renderBooks'
 function renderBooks() {
 
-    var books = getBooks()
+    var books = getBooks();
+    var transFont = (gCurrLang === 'he') ? 'rtl-font' : '';
+
     var strHtmls = books.map(function getBookHTML(book) {
+
         return `
         <article class="book-preview" onclick="onReadBook('${book.id}')">
         <span class="delete-btn"><i class="fas fa-times-circle fa-2x del-book-button book-buttons" onclick="onDeleteBook('${book.id}', this)"></i></span>
@@ -87,8 +88,8 @@ function renderBooks() {
             <div class="card-body">
                 <p class="card-title">${book.name}</p>
                 <p class="card-title-second">${book.author}</p>
-                <p class="card-text">Rating: <span class="book-preview-stat">${book.rating}</span></p>
-                <p class="card-text">Price: <span class="book-preview-stat">$${book.price}</span></p>
+                <p class="card-text ${transFont}">${getTrans("tiles-rating")} <span class="book-preview-stat">${book.rating}</span></p>
+                <p class="card-text ${transFont}">${getTrans("tiles-price")} <span class="book-preview-stat">$${book.price}</span></p>
                 </div>
                 </article> 
                 `
@@ -104,13 +105,14 @@ function renderBooksList() {
     var priceHeaderSortStamp = (gSort === 'price') ? 'selected-book-sort' : '';
 
     var books = getBooks();
+    var transFont = (gCurrLang === 'he') ? 'rtl-font' : '';
     var strHtmlsHead = `<div class="books-list-container">
 
-    <div class="books-list-headers">
-        <div class="book-image-header">Cover</div>
-        <div class="book-name-header ${nameHeaderSortStamp}" onclick="onSortChange('name')">Title </div>
-        <div class="book-price-header ${priceHeaderSortStamp}" onclick="onSortChange('price')">Price </div>
-        <div class="book-actions-header">Actions</div>
+    <div class="books-list-headers ${transFont}">
+        <div class="book-image-header" data-trans="list-cover">${getTrans("list-cover")}</div>
+        <div class="book-name-header ${nameHeaderSortStamp}" onclick="onSortChange('name')">${getTrans("list-title")} </div>
+        <div class="book-price-header ${priceHeaderSortStamp}" onclick="onSortChange('price')">${getTrans("list-price")} </div>
+        <div class="book-actions-header">${getTrans("list-actions")}</div>
     </div>`;
 
     var strHtmls = books.map(function getBookHTML(book) {
@@ -118,13 +120,13 @@ function renderBooksList() {
         <div class="book-listing">
                     <div class="book-image"><img
                             src="${book.img}"
-                            alt="Cover"></div>
+                            alt="${getTrans("list-cover")}"></div>
                     <div class="book-name"><span class="name-span">${book.name}</span></div>
                     <div class="book-price">$${book.price}</div>
                     <div class="book-actions">
-                        <button class="read-list-btn list-btn" onclick="onReadBook('${book.id}')">Read</button>
-                        <button class="edit-list-btn list-btn" onclick="onUpdateBook('${book.id}')">Update</button>
-                        <button class="delete-list-btn list-btn" onclick="onDeleteBook('${book.id}')">Delete</button>
+                        <button class="read-list-btn list-btn ${transFont}" onclick="onReadBook('${book.id}')">${getTrans("list-action-read")}</button>
+                        <button class="edit-list-btn list-btn ${transFont}" onclick="onUpdateBook('${book.id}')">${getTrans("list-action-update")}</button>
+                        <button class="delete-list-btn list-btn ${transFont}" onclick="onDeleteBook('${book.id}')">${getTrans("list-action-delete")}</button>
                     </div>
                 </div> 
                 `
@@ -142,17 +144,12 @@ function onSortChange(sortType) {
 
     renderBooksHelper();
 
-
     var elSortBy = document.querySelector(`.book-${sortType}-header`);
     var sortDirection = '';
     sortDirection = (gSort[0] === '-') ? 'down' : 'up';
     elSortBy.innerHTML += `<i class="far fa-arrow-alt-circle-${sortDirection}"></i>`
     elSortBy.classList.add('selected-book-sort');
 
-}
-
-function onCloseModal() {
-    document.querySelector('.modal').hidden = true
 }
 
 function onDeleteBook(bookId, elDeleteButton) {
@@ -190,16 +187,36 @@ function onUpdateBook(bookId) {
 }
 
 function onReadBook(bookId) {
+
     event.stopPropagation();
-    var book = getBookById(bookId)
-    var elModal = document.querySelector('.modal')
+
+    var elModal = document.querySelector('.modal');
+
+    if(elModal.classList.contains('show')) {
+
+        elModal.classList.remove('show');
+
+        updateModal(elModal, bookId);
+        setTimeout(() => {
+            
+            elModal.classList.add('show');
+        }, 200);
+    } else {
+
+        updateModal(elModal, bookId);
+        elModal.classList.add('show');
+    }
+}
+
+function updateModal(elModal, bookId) {
+    
+    var book = getBookById(bookId);
     elModal.querySelector('.modal-book-name').innerText = book.name;
     elModal.querySelector('img').src = book.img;
     elModal.querySelector('.modal-book-author').innerText = book.author;
     elModal.querySelector('.modal-rating').innerText = book.rating;
     elModal.querySelector('.modal-price').innerText = book.price;
     elModal.querySelector('.modal-desc').innerText = book.desc;
-    elModal.hidden = false;
 }
 
 // Animating the add button for a loading effect
@@ -259,3 +276,13 @@ function restViewButtons(viewType) {
 
     (viewType === 'tiles') ? elTilesView.classList.add('selected-view') : elListView.classList.add('selected-view');
 }
+
+function onSetLang(lang) {
+    setLang(lang);
+
+    if (lang === 'he') document.body.classList.add('rtl')
+    else document.body.classList.remove('rtl')
+    doTrans();
+    renderBooksHelper();
+}
+

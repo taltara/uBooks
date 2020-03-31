@@ -10,7 +10,92 @@ var gView = 'tiles';
 var gViewChanged = false;
 var gSort = '';
 var gPages = 1;
+var gCurrLang = 'en';
 const defaultBookCover = '../images/default-book-cover.jpg';
+
+var gTrans = {
+    'input-author': {
+        en: 'Author:',
+        es: 'El Autor:',
+        he: 'סופר:'
+    },
+    'input-title': {
+        en: 'Title:',
+        es: 'El Título:',
+        he: 'שם:',
+    },
+    'input-price': {
+        en: 'Price: $',
+        es: 'El Precio: $',
+        he: 'מחיר: $',
+    },
+    'input-save': {
+        en: 'Save',
+        es: 'Sumar',
+        he: 'הוסף',
+    },
+    'list-title': {
+        en: 'Title',
+        es: 'El Título',
+        he: 'שם',
+    },
+    'list-price': {
+        en: 'Price',
+        es: 'El Precio',
+        he: 'מחיר',
+    },
+    'list-cover': {
+        en: 'Cover',
+        es: 'La Tapa',
+        he: 'כריכה',
+    },
+    'list-actions': {
+        en: 'Actions',
+        es: 'El Acto',
+        he: 'פעולות',
+    },
+    'list-action-read': {
+        en: 'Read',
+        es: 'Leer',
+        he: 'קרא',
+    },
+    'list-action-update': {
+        en: 'Update',
+        es: 'Actualizar',
+        he: 'עדכן',
+    },
+    'list-action-delete': {
+        en: 'Delete',
+        es: 'Eliminar',
+        he: 'הסר',
+    },
+    'tiles-rating': {
+        en: 'Rating:',
+        es: 'La Clasific:',
+        he: 'דירוג:'
+    },
+    'tiles-price': {
+        en: 'Price:',
+        es: 'El Precio:',
+        he: 'מחיר:'
+    },
+    'modal-rating': {
+        en: 'Rating:',
+        es: 'La Clasific:',
+        he: 'דירוג:'
+    },
+    'modal-price': {
+        en: 'Price: $',
+        es: 'El Precio: $',
+        he: 'מחיר: $'
+    },
+    'modal-desc': {
+        en: 'Description:',
+        es: 'La Descripción:',
+        he: 'תקציר:'
+    },
+}
+
 
 // Powerful sorting function for numbers and strings with reverse functionality
 function sortByType(sortType) {
@@ -158,7 +243,9 @@ async function _createBook(name, author, price) {
 
         bookInfo = bookInfo['items'][0].volumeInfo;
         
-        var safeBookCoverLink = bookInfo.imageLinks.thumbnail.slice(0,4) + 's' + bookInfo.imageLinks.thumbnail.slice(4,);
+        var SafeBookCoverLink = bookInfo.imageLinks.thumbnail.slice(0,4) + 's' + bookInfo.imageLinks.thumbnail.slice(4,);
+        console.log(SafeBookCoverLink);
+        
         return {
             id: makeId(),
             name: bookInfo.title,
@@ -166,7 +253,7 @@ async function _createBook(name, author, price) {
             price: price,
             rating: (bookInfo.averageRating === undefined) ? Math.ceil(Math.random() * 5) : bookInfo.averageRating,
             desc: (bookInfo.description === undefined) ? makeLorem() : bookInfo.description,
-            img: (bookInfo.imageLinks === undefined) ? defaultBookCover : safeBookCoverLink
+            img: (bookInfo.imageLinks === undefined) ? defaultBookCover : SafeBookCoverLink
         };
 
     } else {
@@ -177,7 +264,7 @@ async function _createBook(name, author, price) {
             author: author,
             price: price,
             rating: '',
-            desc: '',
+            desc: '', 
             img: defaultBookCover
         };
     }
@@ -201,10 +288,65 @@ function createBook() {
 }
 
 function _saveBooksToStorage() {
-    saveToStorage(KEY, gBooks)
+    saveToStorage(KEY, gBooks);
 }
 
 function openShula() {
 
     window.open("https://taltara.github.io/MineSweeper-JS/");
+}
+
+function getTrans(transKey) {
+    // Get from gTrans
+    var langTransMap = gTrans[transKey]
+    // If key is unknown return 'UNKNOWN'
+    if (!langTransMap) return 'UNKNOWN';
+    
+    // If translation not found - use english
+    var trans = langTransMap[gCurrLang]
+    if (!trans) trans = langTransMap['en']
+    return trans;
+}
+
+function doTrans() {
+    var els = document.querySelectorAll('[data-trans]')
+    console.log('els', els);
+    els.forEach(el =>{
+        const key = el.dataset.trans;
+        const trans = getTrans(key)
+
+        if (el.placeholder)  el.placeholder = trans
+        else el.innerText = trans
+    }) 
+}
+
+function setLang(lang) {
+    gCurrLang = lang;
+}
+
+function formatNumOlder(num) {
+    return num.toLocaleString('es')
+}
+
+function formatNum(num) {
+    return new Intl.NumberFormat(gCurrLang).format(num);
+}
+
+function formatCurrency(num) {
+    return new Intl.NumberFormat('he-IL',{ style: 'currency', currency: 'ILS' }).format(num);
+}
+
+function formatDate(time) {
+
+    var options = {
+        year: 'numeric', month: 'short', day: 'numeric',
+        hour: 'numeric', minute: 'numeric',
+        hour12: true,
+    };
+
+    return new Intl.DateTimeFormat(gCurrLang,options).format(time);
+}
+
+function kmToMiles(km) {
+    return km / 1.609;
 }
